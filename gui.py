@@ -7,14 +7,31 @@ import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 
+
+def mSave():
+  filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
+  if filename is None:
+    return
+  file = open (filename, mode = 'w')
+  text_to_save = command_textbox.get("1.0", tk.END)
+  
+  file.write(text_to_save)
+  file.close()
+
+
 def do_command(command):
-  global command_textbox
+  global command_textbox, url_entry
+  # If url_entry is blank, use localhost IP address 
+  url_val = url_entry.get()
+  if (len(url_val) == 0):
+    # url_val = "127.0.0.1"
+    url_val = "192.168.1.222"
     
   command_textbox.delete(1.0, tk.END)
   command_textbox.insert(tk.END, command + " working....\n")
   command_textbox.update()
 
-  p = subprocess.Popen(command + ' ::1', stdout=subprocess.PIPE, stderr=subprocess.PIPE) #v2
+  p = subprocess.Popen(command + url_val, stdout=subprocess.PIPE, stderr=subprocess.PIPE) #v2
 
   cmd_results, cmd_errors = p.communicate()
   command_textbox.insert(tk.END, cmd_results)
@@ -22,21 +39,32 @@ def do_command(command):
 
 root = tk.Tk()
 frame = tk.Frame(root)
-frame.pack()
+frame.pack(fill='x')
 
 # set up button to run the do_command function
-ping_btn = tk.Button(frame, text="ping", command=lambda:do_command("ping"))
-ping_btn.pack()
+save_btn = tk.Button(frame,
+ text="save",
+ command=mSave)
+save_btn.pack(side='right')
 
-tracert_btn = tk.Button(frame,text="tracert", command=lambda:do_command("tracert"))
-tracert_btn.pack()
+ping_btn = tk.Button(frame, 
+text="ping", 
+command=lambda:do_command("ping "))
+ping_btn.pack(side='left')
 
-nslookup_btn = tk.Button(frame,text="nslookup",command=lambda:do_command("nslookup"))
-nslookup_btn.pack()
+tracert_btn = tk.Button(frame,
+text="tracert", 
+command=lambda:do_command("tracert "))
+tracert_btn.pack(side='left')
+
+nslookup_btn = tk.Button(frame,
+text="nslookup",
+command=lambda:do_command("nslookup "))
+nslookup_btn.pack(side='left')
 
 # creates the frame with label for the text box
 frame_URL = tk.Frame(root, pady=10,  bg="black") # change frame color
-frame_URL.pack()
+frame_URL.pack(side='left')
 
 # decorative label
 url_label = tk.Label(frame_URL, text="Enter a URL of interest: ", 
