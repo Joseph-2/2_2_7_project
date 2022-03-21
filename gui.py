@@ -38,51 +38,55 @@ def do_command(command):
   command_textbox.insert(tk.END, cmd_errors)
 
 root = tk.Tk()
-frame = tk.Frame(root)
+frame = tk.Frame(root,bg='antique white')
 frame.pack(fill='x')
 
 # set up button to run the do_command function
 save_btn = tk.Button(frame,
  text="save",
+ fg= 'blue',
+ bg= 'linen',
  command=mSave)
 save_btn.pack(side='right')
 
 ping_btn = tk.Button(frame, 
 text="ping", 
+fg='blue',
+bg='linen',
 command=lambda:do_command("ping "))
 ping_btn.pack(side='left')
 
 tracert_btn = tk.Button(frame,
 text="tracert", 
+fg='blue',
+bg='linen',
 command=lambda:do_command("tracert "))
 tracert_btn.pack(side='left')
 
 nslookup_btn = tk.Button(frame,
 text="nslookup",
+fg='blue',
+bg='linen',
 command=lambda:do_command("nslookup "))
 nslookup_btn.pack(side='left')
 
 # creates the frame with label for the text box
-frame_URL = tk.Frame(root, pady=10,  bg="black") # change frame color
-frame_URL.pack(side='left')
+frame_URL = tk.Frame(root,bg="antique white") # change frame color
+frame_URL.pack(side='left',fill='both')
 
 # decorative label
 url_label = tk.Label(frame_URL, text="Enter a URL of interest: ", 
-    compound="center",
-    font=("comic sans", 14),
-    bd=0, 
-    relief=tk.FLAT, 
-    cursor="heart",
-    fg="mediumpurple3",
-    bg="black")
+    font=("Arial", 14),
+    fg="blue",
+    bg="white")
 url_label.pack(side=tk.LEFT)
 url_entry= tk.Entry(frame_URL,  font=("comic sans", 14)) # change font
 url_entry.pack(side=tk.LEFT)
 
-frame = tk.Frame(root,  bg="black") # change frame color
-frame.pack()
+frame = tk.Frame(root) # change frame color
+frame.pack(fill='both')
 
 command_textbox = tksc.ScrolledText(frame, height=10, width=100)
-command_textbox.pack()
+command_textbox.pack(fill='both')
 
 root.mainloop()
